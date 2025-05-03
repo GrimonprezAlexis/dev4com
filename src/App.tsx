@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import Loader from './components/Loader';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import Admin from './components/Admin';
-import Services from './components/Services';
-import Footer from './components/Footer';
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import Loader from "./components/Loader";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import Contact from "./components/Contact";
+import Admin from "./components/Admin";
+import Services from "./components/Services";
+import Footer from "./components/Footer";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
-  
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
@@ -32,12 +37,12 @@ function App() {
   const [appLoaded, setAppLoaded] = useState(false);
 
   useEffect(() => {
-    document.title = "DM - Développement Web & Digital Solutions";
-    
+    document.title = "DEV4COM - Développement Web & Digital Solutions";
+
     const timer = setTimeout(() => {
       setAppLoaded(true);
     }, 800);
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -49,8 +54,12 @@ function App() {
     <Router>
       <div className="tech-pattern-bg min-h-screen text-white">
         {loading && <Loader onComplete={handleLoaderComplete} />}
-        
-        <div className={`transition-opacity duration-500 ${loading ? 'opacity-0' : 'opacity-100'}`}>
+
+        <div
+          className={`transition-opacity duration-500 ${
+            loading ? "opacity-0" : "opacity-100"
+          }`}
+        >
           <Header />
           <main>
             <AnimatedRoutes />
