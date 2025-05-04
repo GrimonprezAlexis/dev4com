@@ -13,8 +13,9 @@ import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Admin from "./components/Admin";
-import Services from "./components/Services";
 import Footer from "./components/Footer";
+import HeroServices from "./components/HeroServices";
+import Services from "./components/Services";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -23,7 +24,7 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Hero />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin" element={<Admin />} />
@@ -63,7 +64,7 @@ function App() {
           <Header />
           <main>
             <AnimatedRoutes />
-            <Services />
+            <HeroServices />
           </main>
           <Footer />
         </div>

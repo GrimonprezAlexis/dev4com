@@ -52,14 +52,14 @@ const Header: React.FC = () => {
             Accueil
           </Link>
           <Link
-            to="/about"
+            to="/services"
             className={`text-sm font-medium transition-colors ${
-              location.pathname === "/about"
+              location.pathname === "/services"
                 ? "text-white"
                 : "text-gray-400 hover:text-white"
             }`}
           >
-            À propos
+            Services
           </Link>
           <Link
             to="/projects"

@@ -1,33 +1,41 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Hero: React.FC = () => {
   const sections = [
     {
-      title: "À propos",
-      description: "Une équipe passionnée par le développement web et les solutions digitales innovantes.",
-      image: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1920",
-      link: "/about"
+      title: "Projets",
+      description:
+        "Découvrez nos réalisations et projets qui ont transformé la présence digitale de nos clients.",
+      image:
+        "https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      link: "/projects",
     },
     {
-      title: "Projets",
-      description: "Découvrez nos réalisations et projets qui ont transformé la présence digitale de nos clients.",
-      image: "https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg?auto=compress&cs=tinysrgb&w=1920",
-      link: "/projects"
+      title: "Services",
+      description:
+        "Découvrez nos services de développement web et digital sur mesure.",
+      image:
+        "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      link: "/services",
     },
     {
       title: "Contact",
-      description: "Parlons de votre projet et créons ensemble une solution sur mesure.",
-      image: "https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg?auto=compress&cs=tinysrgb&w=1920",
-      link: "/contact"
+      description:
+        "Parlons de votre projet et créons ensemble une solution sur mesure.",
+      image:
+        "https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      link: "/contact",
     },
     {
       title: "Admin",
-      description: "Accédez à l'interface d'administration pour gérer votre site web.",
-      image: "https://images.pexels.com/photos/8294606/pexels-photo-8294606.jpeg?auto=compress&cs=tinysrgb&w=1920",
-      link: "/admin"
-    }
+      description:
+        "Accédez à l'interface d'administration pour gérer votre site web.",
+      image:
+        "https://images.pexels.com/photos/8294606/pexels-photo-8294606.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      link: "/admin",
+    },
   ];
 
   return (
@@ -43,16 +51,16 @@ const Hero: React.FC = () => {
             >
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80 z-10 opacity-70 transition-opacity duration-300 group-hover:opacity-40" />
-              
+
               {/* Animated lines overlay */}
               <div className="absolute inset-0 z-20 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[gradient_8s_ease_infinite]" />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent animate-[gradient_6s_ease_infinite]" />
               </div>
-              
+
               {/* Cyberpunk-style grid overlay */}
               <div className="absolute inset-0 z-20 opacity-10 group-hover:opacity-20 transition-opacity duration-300 bg-[linear-gradient(transparent_1px,_transparent_1px),_linear-gradient(to_right,_rgba(255,255,255,0.1)_1px,_transparent_1px)] bg-[size:30px_30px]" />
-              
+
               {/* Background image */}
               <motion.div
                 className="absolute inset-0 w-full h-full"
@@ -64,7 +72,7 @@ const Hero: React.FC = () => {
                   src={section.image}
                   alt={section.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ objectPosition: 'center' }}
+                  style={{ objectPosition: "center" }}
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1.5 }}
@@ -87,7 +95,7 @@ const Hero: React.FC = () => {
                   >
                     {section.title}
                   </motion.h2>
-                  
+
                   <motion.p
                     className="text-base leading-relaxed text-white/90 transform transition-all duration-300"
                     initial={{ y: 20, opacity: 0 }}
