@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import HeroServices from "./HeroServices";
 
 const Hero: React.FC = () => {
   const sections = [
@@ -114,6 +115,7 @@ const Hero: React.FC = () => {
           </Link>
         ))}
       </div>
+      <HeroServices />
     </div>
   );
 };

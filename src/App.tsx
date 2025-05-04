@@ -64,7 +64,6 @@ function App() {
           <Header />
           <main>
             <AnimatedRoutes />
-            <HeroServices />
           </main>
           <Footer />
         </div>

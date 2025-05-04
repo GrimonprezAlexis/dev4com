@@ -6,7 +6,6 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [showText, setShowText] = useState(true);
   const [showLogo, setShowLogo] = useState(false);
-  const [finalMessage, setFinalMessage] = useState(false);
 
   const text = "Solutions Digitales Pour Votre Succès";
   const [displayText, setDisplayText] = useState("");
@@ -23,7 +22,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
       const timeout = setTimeout(() => {
         setShowText(false);
         setShowLogo(true);
-      }, 1000);
+      }, 1300);
       return () => clearTimeout(timeout);
     }
   }, [currentIndex, text, showText]);
@@ -38,7 +37,6 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
       } else {
         setTimeout(() => {
           setShowLogo(false);
-          setFinalMessage(true);
           setTimeout(() => onComplete(), 700);
         }, 800);
         clearInterval(timer);
@@ -112,18 +110,6 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
               alt="Logo"
               className="w-full h-full object-contain relative z-10"
             />
-          </motion.div>
-        )}
-
-        {finalMessage && (
-          <motion.div
-            key="final"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            className="text-4xl text-white font-bold z-10"
-          >
-            Prêt.
           </motion.div>
         )}
       </AnimatePresence>
