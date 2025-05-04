@@ -6,42 +6,44 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [showText, setShowText] = useState(true);
   const [showLogo, setShowLogo] = useState(false);
-
-  const text = "Solutions Digitales Pour Votre Succès";
-  const [displayText, setDisplayText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loadingText, setLoadingText] = useState("LOADING_SYSTEM");
+  const [loadingPercent, setLoadingPercent] = useState(0);
 
   useEffect(() => {
-    if (currentIndex < text.length && showText) {
-      const timeout = setTimeout(() => {
-        setDisplayText(text.slice(0, currentIndex + 1));
-        setCurrentIndex(currentIndex + 1);
-      }, 50);
-      return () => clearTimeout(timeout);
-    } else if (currentIndex >= text.length) {
-      const timeout = setTimeout(() => {
-        setShowText(false);
-        setShowLogo(true);
-      }, 1300);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, text, showText]);
+    const textInterval = setInterval(() => {
+      setLoadingText((prev) => {
+        const texts = [
+          "LOADING_SYSTEM",
+          "INITIALIZING",
+          "CONNECTING_DB",
+          "LOADING_ASSETS",
+          "FINALIZING",
+        ];
+        const currentIndex = texts.indexOf(prev);
+        return texts[(currentIndex + 1) % texts.length];
+      });
+    }, 1500);
+
+    return () => clearInterval(textInterval);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (progress < 100) {
         setProgress((prev) => {
-          const newProgress = prev + (100 - prev) * 0.1;
+          const increment = Math.random() * 15;
+          const newProgress = prev + increment;
+          setLoadingPercent(Math.min(Math.round(newProgress), 100));
           return newProgress >= 99 ? 100 : newProgress;
         });
       } else {
         setTimeout(() => {
           setShowLogo(false);
-          setTimeout(() => onComplete(), 700);
+          setTimeout(() => onComplete(), 500);
         }, 800);
         clearInterval(timer);
       }
-    }, 100);
+    }, 200);
 
     return () => clearInterval(timer);
   }, [progress, onComplete]);
@@ -59,68 +61,110 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
         options={{
           background: { color: "#000000" },
           particles: {
-            color: { value: "#00f0ff" },
-            links: { enable: true, color: "#00f0ff" },
-            move: { enable: true, speed: 0.6 },
-            size: { value: 1.5 },
-            opacity: { value: 0.3 },
+            color: { value: "#ffffff" },
+            links: {
+              enable: true,
+              color: "#ffffff",
+              opacity: 0.1,
+              width: 1,
+            },
+            move: {
+              enable: true,
+              speed: 0.3,
+              direction: "none",
+              random: true,
+              straight: false,
+              outModes: "out",
+            },
+            number: { value: 100 },
+            opacity: { value: 0.1 },
+            size: { value: 1 },
           },
         }}
       />
 
-      {/* Gradient glow background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#151515,_#000000)] opacity-60 z-0" />
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-80 z-10" />
 
-      {/* Animated scanning light */}
-      <div className="absolute top-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#00F0FF] to-transparent animate-pulse z-10" />
-
-      <AnimatePresence mode="wait">
-        {showText && (
-          <motion.div
-            key="text"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="text-4xl md:text-5xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#AA5EFF] via-[#605DFF] to-[#00F0FF] animate-pulse relative z-10"
-          >
-            {displayText}
-          </motion.div>
-        )}
-
-        {showLogo && (
-          <motion.div
-            key="logo"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{
-              type: "spring",
-              stiffness: 260,
-              damping: 20,
-              duration: 0.6,
-            }}
-            className="mb-8 w-32 h-32 relative flex items-center justify-center z-10"
-          >
-            <motion.div
-              className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-[#AA5EFF] via-[#605DFF] to-[#00F0FF] blur-2xl opacity-40"
-              animate={{ rotate: [0, 360] }}
-              transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-            />
-            <img
-              src="/images/logo.png"
-              alt="Logo"
-              className="w-full h-full object-contain relative z-10"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="w-64 h-1 bg-gray-900 rounded-full overflow-hidden shadow-md shadow-cyan-500/30 relative z-10">
+      {/* Content */}
+      <div className="relative z-20 container mx-auto px-4 flex flex-col items-center">
+        {/* Logo */}
         <motion.div
-          className="h-full bg-gradient-to-r from-[#AA5EFF] via-[#605DFF] to-[#00F0FF]"
-          initial={{ width: "0%" }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.3 }}
-        />
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-16"
+        >
+          <img
+            src="/images/logo.png"
+            alt="Logo"
+            className="w-24 h-24 object-contain"
+          />
+        </motion.div>
+
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 1 }}
+          className="text-4xl md:text-6xl font-bold text-center mb-4 tracking-wider"
+        >
+          Solutions Web & Digital
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ delay: 1, duration: 1 }}
+          className="text-gray-400 text-lg mb-12"
+        >
+          Pour un avenir numérique
+        </motion.p>
+
+        {/* Loading Status */}
+        <div className="w-full max-w-md space-y-4">
+          <div className="flex justify-between items-center text-sm text-gray-500 mb-2">
+            <span>{loadingText}</span>
+            <span>{loadingPercent}%</span>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="relative h-[2px] bg-gray-800 overflow-hidden">
+            <motion.div
+              className="absolute inset-y-0 left-0 bg-white"
+              initial={{ width: "0%" }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+
+          {/* Loading Lines */}
+          <div className="space-y-2 text-[10px] font-mono text-gray-600">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 + i * 0.2 }}
+                className="overflow-hidden whitespace-nowrap"
+              >
+                {"> "}
+                {Array.from({ length: 32 })
+                  .map(() => String.fromCharCode(65 + Math.random() * 26))
+                  .join("")}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Animated Border */}
+      <div className="absolute inset-0 z-30 pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-20" />
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-20" />
+        <div className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-20" />
+        <div className="absolute top-0 right-0 w-[1px] h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-20" />
       </div>
     </motion.div>
   );
