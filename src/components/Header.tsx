@@ -52,16 +52,6 @@ const Header: React.FC = () => {
             Accueil
           </Link>
           <Link
-            to="/services"
-            className={`text-sm font-medium transition-colors ${
-              location.pathname === "/services"
-                ? "text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Services
-          </Link>
-          <Link
             to="/projects"
             className={`text-sm font-medium transition-colors ${
               location.pathname === "/projects"
@@ -70,6 +60,16 @@ const Header: React.FC = () => {
             }`}
           >
             Projets
+          </Link>
+          <Link
+            to="/services"
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/services"
+                ? "text-white"
+                : "text-gray-400 hover:text-white"
+            }`}
+          >
+            Services
           </Link>
           <Link
             to="/contact"

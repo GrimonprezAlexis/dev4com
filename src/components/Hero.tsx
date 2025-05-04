@@ -8,32 +8,28 @@ const Hero: React.FC = () => {
       title: "Projets",
       description:
         "Découvrez nos réalisations et projets qui ont transformé la présence digitale de nos clients.",
-      image:
-        "https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "/images/projets.png",
       link: "/projects",
     },
     {
       title: "Services",
       description:
         "Découvrez nos services de développement web et digital sur mesure.",
-      image:
-        "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "/images/services.png",
       link: "/services",
     },
     {
       title: "Contact",
       description:
         "Parlons de votre projet et créons ensemble une solution sur mesure.",
-      image:
-        "https://images.pexels.com/photos/5473955/pexels-photo-5473955.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "/images/contact.png",
       link: "/contact",
     },
     {
       title: "Admin",
       description:
         "Accédez à l'interface d'administration pour gérer votre site web.",
-      image:
-        "https://images.pexels.com/photos/8294606/pexels-photo-8294606.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      image: "/images/admin.png",
       link: "/admin",
     },
   ];
@@ -55,7 +51,6 @@ const Hero: React.FC = () => {
               {/* Animated lines overlay */}
               <div className="absolute inset-0 z-20 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[gradient_8s_ease_infinite]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent animate-[gradient_6s_ease_infinite]" />
               </div>
 
               {/* Cyberpunk-style grid overlay */}
@@ -72,7 +67,16 @@ const Hero: React.FC = () => {
                   src={section.image}
                   alt={section.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ objectPosition: "center" }}
+                  style={{
+                    objectPosition:
+                      index === 0
+                        ? "bottom"
+                        : index === 1
+                        ? "right center"
+                        : index === 2
+                        ? "top"
+                        : "center",
+                  }}
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1.5 }}
@@ -82,13 +86,13 @@ const Hero: React.FC = () => {
               {/* Content */}
               <div className="relative z-30 h-full flex flex-col items-center justify-center p-8 text-center">
                 <motion.div
-                  className="backdrop-blur-sm p-6 rounded-xl transform transition-all duration-300 group-hover:scale-105 border"
+                  className="backdrop-blur-sm p-6 rounded-xl transform transition-all duration-300 group-hover:scale-105 border border-white/10"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: index * 0.3 }}
                 >
                   <motion.h2
-                    className="text-4xl font-bold mb-4 font-sans tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500"
+                    className="text-4xl font-bold mb-4 font-sans tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-r from-[#AA5EFF] via-[#605DFF] to-[#00F0FF]"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: index * 0.3 }}
