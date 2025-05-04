@@ -29,8 +29,13 @@ const Header: React.FC = () => {
         <Link to="/">
           <motion.div
             className="w-16 h-16 relative"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{
+              duration: 1.4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            whileHover={{ scale: 1.2 }}
           >
             <img
               src="/images/logo.png"
