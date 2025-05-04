@@ -293,11 +293,10 @@ const Services: React.FC = () => {
             <motion.div
               key={service.id}
               layoutId={service.id}
-              onClick={() => setSelectedId(service.id)}
               onTouchStart={handleTouchStart}
               onTouchMove={(e) => handleTouchMove(e, service.id)}
               onTouchEnd={handleTouchEnd}
-              className={`bg-gradient-to-br from-gray-900 to-black rounded-xl overflow-hidden cursor-pointer group transform transition-all duration-300 hover:translate-y-[-10px] hover:shadow-xl ${
+              className={`bg-gradient-to-br from-gray-900 to-black rounded-xl overflow-hidden group transform transition-all duration-300 hover:translate-y-[-10px] hover:shadow-xl ${
                 index === focusedIndex ? "ring-2 ring-blue-500" : ""
               }`}
               variants={cardVariants}
@@ -328,7 +327,8 @@ const Services: React.FC = () => {
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
-                    className="text-gray-400 hover:text-white"
+                    className="text-gray-400 hover:text-white transition-colors cursor-pointer"
+                    onClick={() => setSelectedId(service.id)}
                   >
                     <ExternalLink size={20} />
                   </motion.button>

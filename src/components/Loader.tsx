@@ -68,7 +68,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     const timer = setInterval(() => {
       if (progress < 100) {
         setProgress((prev) => {
-          const increment = Math.random() * 15;
+          const increment = Math.random() * 23;
           const newProgress = prev + increment;
           setLoadingPercent(Math.min(Math.round(newProgress), 100));
           return newProgress >= 99 ? 100 : newProgress;
@@ -79,7 +79,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           setShowButton(true);
         }, 800);
       }
-    }, 200);
+    }, 180);
 
     return () => clearInterval(timer);
   }, [progress, onComplete]);
@@ -233,7 +233,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
                 duration: 0.8,
               }}
               onClick={handleEnter}
-              className="mt-12 relative group"
+              className="mt-24 relative group"
             >
               {/* Gradient border background */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300" />

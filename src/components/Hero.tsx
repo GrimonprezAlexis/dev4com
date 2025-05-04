@@ -68,16 +68,7 @@ const Hero: React.FC = () => {
                   src={section.image}
                   alt={section.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{
-                    objectPosition:
-                      index === 0
-                        ? "bottom"
-                        : index === 1
-                        ? "right center"
-                        : index === 2
-                        ? "top"
-                        : "center",
-                  }}
+                  style={{ objectPosition: "center" }}
                   initial={{ scale: 1.2 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 1.5 }}
@@ -93,7 +84,7 @@ const Hero: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.3 }}
                 >
                   <motion.h2
-                    className="text-4xl font-bold mb-4 font-sans tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-r from-[#AA5EFF] via-[#605DFF] to-[#00F0FF]"
+                    className="text-4xl font-bold mb-4 font-sans tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: index * 0.3 }}

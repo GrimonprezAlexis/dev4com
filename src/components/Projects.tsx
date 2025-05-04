@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import {
   ExternalLink,
@@ -10,6 +10,8 @@ import {
   ChevronRight,
   ArrowRight,
   X,
+  ArrowLeftCircle,
+  ArrowRightCircle,
 } from "lucide-react";
 
 interface Project {
@@ -34,7 +36,37 @@ interface Project {
 const Projects: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeIndex, setActiveIndex] = useState(2);
+  const [leftKeyPressed, setLeftKeyPressed] = useState(false);
+  const [rightKeyPressed, setRightKeyPressed] = useState(false);
   const controls = useAnimation();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setLeftKeyPressed(true);
+        handlePrev();
+      } else if (e.key === "ArrowRight") {
+        setRightKeyPressed(true);
+        handleNext();
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setLeftKeyPressed(false);
+      } else if (e.key === "ArrowRight") {
+        setRightKeyPressed(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
 
   const handleDragEnd = (event: any, info: any) => {
     const threshold = 30;
@@ -89,7 +121,7 @@ const Projects: React.FC = () => {
         x: -140 * Math.abs(diff),
         y: 40 * Math.abs(diff),
         scale: 0.9,
-        opacity: 0.3,
+        opacity: 0.8,
         rotateY: 12,
       };
     }
@@ -99,7 +131,7 @@ const Projects: React.FC = () => {
       x: 140 * Math.abs(diff),
       y: 40 * Math.abs(diff),
       scale: 0.9,
-      opacity: 0.3,
+      opacity: 0.8,
       rotateY: -12,
     };
   };
@@ -236,7 +268,7 @@ const Projects: React.FC = () => {
         </motion.div>
 
         <div className="relative h-[600px] perspective-1000">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-40 md:block hidden">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-40">
             <motion.button
               onClick={handlePrev}
               className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
@@ -247,7 +279,7 @@ const Projects: React.FC = () => {
             </motion.button>
           </div>
 
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-40 md:block hidden">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-40">
             <motion.button
               onClick={handleNext}
               className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
@@ -281,18 +313,12 @@ const Projects: React.FC = () => {
                 }}
                 style={{
                   transformStyle: "preserve-3d",
-                  filter:
-                    index !== activeIndex ? "brightness(0.7)" : "brightness(1)",
                 }}
               >
                 <div
                   className="bg-white/5 backdrop-blur-lg rounded-xl overflow-hidden shadow-xl border border-white/10"
                   style={{
                     transformStyle: "preserve-3d",
-                    filter:
-                      index === activeIndex
-                        ? "brightness(1)"
-                        : "brightness(0.7)",
                   }}
                 >
                   <div className="relative h-80">
@@ -376,6 +402,54 @@ const Projects: React.FC = () => {
             ))}
           </div>
         </div>
+
+        <motion.div
+          className="flex items-center justify-center space-x-8 mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <button
+            onClick={handlePrev}
+            className={`flex items-center space-x-2 transition-colors duration-200 ${
+              leftKeyPressed ? "text-blue-400" : ""
+            }`}
+          >
+            <ArrowLeftCircle
+              size={24}
+              className={`${
+                leftKeyPressed ? "text-blue-400" : "text-gray-400"
+              } transition-colors duration-200`}
+            />
+            <span
+              className={`${
+                leftKeyPressed ? "text-blue-400" : "text-gray-400"
+              } transition-colors duration-200`}
+            >
+              Projet précédent
+            </span>
+          </button>
+          <button
+            onClick={handleNext}
+            className={`flex items-center space-x-2 transition-colors duration-200 ${
+              rightKeyPressed ? "text-blue-400" : ""
+            }`}
+          >
+            <span
+              className={`${
+                rightKeyPressed ? "text-blue-400" : "text-gray-400"
+              } transition-colors duration-200`}
+            >
+              Projet suivant
+            </span>
+            <ArrowRightCircle
+              size={24}
+              className={`${
+                rightKeyPressed ? "text-blue-400" : "text-gray-400"
+              } transition-colors duration-200`}
+            />
+          </button>
+        </motion.div>
       </div>
 
       <AnimatePresence>
@@ -395,7 +469,6 @@ const Projects: React.FC = () => {
               {projects.find((p) => p.id === selectedId) && (
                 <div>
                   <div className="relative">
-                    {/* Header with action buttons */}
                     <div className="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black/80 to-transparent">
                       <div className="flex items-center justify-between p-4">
                         <button
@@ -417,7 +490,6 @@ const Projects: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Project Image and Info */}
                     <div className="h-96">
                       <img
                         src={projects.find((p) => p.id === selectedId)!.image}

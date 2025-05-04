@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Facebook, Linkedin, Twitter } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Facebook, Linkedin, Twitter, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -15,6 +16,20 @@ const Header: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const menuItems = [
+    { path: "/", label: "Accueil" },
+    { path: "/projects", label: "Projets" },
+    { path: "/services", label: "Services" },
+    { path: "/contact", label: "Contact" },
+    { path: "/admin", label: "Admin" },
+  ];
+
+  const socialLinks = [
+    { Icon: Facebook, href: "#" },
+    { Icon: Twitter, href: "#" },
+    { Icon: Linkedin, href: "#" },
+  ];
 
   return (
     <motion.header
@@ -29,13 +44,8 @@ const Header: React.FC = () => {
         <Link to="/">
           <motion.div
             className="w-16 h-16 relative"
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{
-              duration: 1.4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            whileHover={{ scale: 1.2 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
             <img
               src="/images/logo.png"
@@ -45,82 +55,107 @@ const Header: React.FC = () => {
           </motion.div>
         </Link>
 
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          <Link
-            to="/"
-            className={`text-sm font-medium transition-colors ${
-              location.pathname === "/"
-                ? "text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Accueil
-          </Link>
-          <Link
-            to="/projects"
-            className={`text-sm font-medium transition-colors ${
-              location.pathname === "/projects"
-                ? "text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Projets
-          </Link>
-          <Link
-            to="/services"
-            className={`text-sm font-medium transition-colors ${
-              location.pathname === "/services"
-                ? "text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Services
-          </Link>
-          <Link
-            to="/contact"
-            className={`text-sm font-medium transition-colors ${
-              location.pathname === "/contact"
-                ? "text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Contact
-          </Link>
-          <Link
-            to="/admin"
-            className={`text-sm font-medium transition-colors ${
-              location.pathname === "/admin"
-                ? "text-white"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Admin
-          </Link>
+          {menuItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`text-sm font-medium transition-colors ${
+                location.pathname === item.path
+                  ? "text-white"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        <div className="flex space-x-4">
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.2, color: "#ffffff" }}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            <Facebook size={18} />
-          </motion.a>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.2, color: "#ffffff" }}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            <Twitter size={18} />
-          </motion.a>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.2, color: "#ffffff" }}
-            className="text-gray-400 hover:text-white transition-colors"
-          >
-            <Linkedin size={18} />
-          </motion.a>
+        {/* Desktop Social Links */}
+        <div className="hidden md:flex space-x-4">
+          {socialLinks.map(({ Icon, href }, index) => (
+            <motion.a
+              key={index}
+              href={href}
+              whileHover={{ scale: 1.2, color: "#ffffff" }}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <Icon size={18} />
+            </motion.a>
+          ))}
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-gray-400 hover:text-white transition-colors"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <Menu size={24} />
+        </button>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+              className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 md:hidden"
+            >
+              <div className="flex flex-col h-full p-6">
+                <div className="flex justify-between items-center mb-8">
+                  <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                    <img
+                      src="/images/logo.png"
+                      alt="Logo"
+                      className="w-16 h-16 object-contain"
+                    />
+                  </Link>
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <nav className="flex flex-col space-y-6">
+                  {menuItems.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`text-2xl font-medium transition-colors ${
+                        location.pathname === item.path
+                          ? "text-white"
+                          : "text-gray-400 hover:text-white"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+
+                <div className="mt-auto">
+                  <div className="flex justify-center space-x-6">
+                    {socialLinks.map(({ Icon, href }, index) => (
+                      <motion.a
+                        key={index}
+                        href={href}
+                        whileHover={{ scale: 1.2, color: "#ffffff" }}
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
+                        <Icon size={24} />
+                      </motion.a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.header>
   );
